@@ -1,0 +1,27 @@
+.input-line-container {
+  .directory-text {
+    color: green;
+    /*TODO figure out how to link this up to an asset*/
+    font-family: "FiraCode Nerd Font", monospace;
+  }
+  .offscreen-text {
+    position: relative;
+    left: -1000000px;
+  }
+  .user-input {
+    color: #fff;
+    font-weight: 500;
+    background-color: #121214;
+    border: none;
+    width: 76%;
+  }
+  .user-text {
+    font-family: "FiraCode Nerd Font", monospace;
+    font-weight: 500;
+    color: #fff;
+  }
+  .user-input:focus {
+    outline: none;
+    border-right: 1px solid transparent;
+  }
+}
