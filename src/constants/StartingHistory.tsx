@@ -1,10 +1,11 @@
 import { InterfaceMessage } from "../components/InterfaceMessage";
-import { Line } from "../components/Line";
+import { WordArt } from "../components/WordArt";
 import { TextHistory } from "../types/TextHistory";
+import { textArtName } from "./FormattedTemplates";
 
 export const STARTING_HISTORY: TextHistory[] = [
   {
-    message: <InterfaceMessage template={``} />,
+    message: <WordArt wordArt={textArtName} />,
     from: "interface",
     inView: true,
   },

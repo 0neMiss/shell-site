@@ -19,7 +19,23 @@
     font-family: "FiraCode Nerd Font", monospace;
     font-weight: 500;
     color: #fff;
+    border-right: 0.7rem solid #d0d4ce;
+    animation: blink 0.9s ease infinite;
   }
+  @keyframes blink {
+    from,
+    to {
+      border-color: transparent;
+    }
+    50% {
+      border-color: #d0d4ce;
+    }
+  }
+  .cursor {
+    color: #d0d4ce;
+    animation: blink 0.75s step-end infinite;
+  }
+
   .user-input:focus {
     outline: none;
     border-right: 1px solid transparent;
