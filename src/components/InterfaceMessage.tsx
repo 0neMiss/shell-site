@@ -4,6 +4,7 @@ import "./InterfaceMessage.scss";
 
 interface InterfaceMessageProps {
   template: string;
+  currentTime: string;
 }
 
 export const InterfaceMessage: FC<InterfaceMessageProps> = ({ template }) => {

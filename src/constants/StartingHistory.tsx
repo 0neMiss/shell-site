@@ -5,14 +5,22 @@ import { textArtName } from "./FormattedTemplates";
 
 export const STARTING_HISTORY: TextHistory[] = [
   {
-    message: <WordArt wordArt={textArtName} />,
+    message: [<WordArt wordArt={textArtName} />],
+    interfaceResponse: "",
+    time: new Date().toISOString(),
     from: "interface",
     inView: true,
   },
   {
-    message: (
-      <InterfaceMessage template={`Type |help| for a list of commands!`} />
-    ),
+    message: [
+      <InterfaceMessage
+        key="type-help"
+        currentTime={new Date().toISOString()}
+        template={`Type |help| for a list of commands!`}
+      />,
+    ],
+    time: new Date().toISOString(),
+    interfaceResponse: "",
     from: "interface",
     inView: true,
   },

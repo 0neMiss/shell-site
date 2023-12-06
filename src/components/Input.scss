@@ -1,9 +1,4 @@
 .input-line-container {
-  .directory-text {
-    color: green;
-    /*TODO figure out how to link this up to an asset*/
-    font-family: "FiraCode Nerd Font", monospace;
-  }
   .offscreen-text {
     position: relative;
     left: -1000000px;
@@ -22,6 +17,7 @@
     border-right: 0.7rem solid #d0d4ce;
     animation: blink 0.9s ease infinite;
   }
+
   @keyframes blink {
     from,
     to {

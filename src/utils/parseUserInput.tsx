@@ -1,9 +1,39 @@
+import { DirectoryText } from "../components/DirectoryText";
 import { InterfaceMessage } from "../components/InterfaceMessage";
+import { recognizedCommands } from "../constants/RecognizedCommands";
 import { TextHistory } from "../types/TextHistory";
+import { parseCommandsAndFlags } from "./parseCommandsAndFlags";
 
-export const parseUserInput = (input: string): TextHistory => {
+type ParsingResult = TextHistory & {
+  time: string;
+};
+
+export const parseUserInput = (input: string): ParsingResult => {
+  const { command: c, template } = parseCommandsAndFlags(input);
+
+  const currentTime = new Date().toISOString();
+  const outputText =
+    recognizedCommands[c]?.outputText ?? `|${c}|: command not found`;
+
   return {
-    message: <InterfaceMessage template={input} />,
+    message: [
+      <>
+        <DirectoryText />
+        <InterfaceMessage
+          key={`textHistory-${currentTime}`}
+          currentTime={currentTime}
+          template={template}
+        />
+      </>,
+      <InterfaceMessage
+        key={`outputText-${currentTime}`}
+        currentTime={currentTime}
+        template={outputText}
+      />,
+    ],
+    time: currentTime,
+    interfaceResponse:
+      recognizedCommands[c]?.outputText ?? `${c} is not a recognized command!`,
     from: "user",
     inView: true,
   };

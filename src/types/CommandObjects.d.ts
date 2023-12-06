@@ -3,8 +3,8 @@ export interface CommandMap {
 }
 
 export interface CommandObjects {
-  description: string;
-  onMatch: string;
+  outputText?: string;
+  onMatch?: string;
   flags?: boolean[];
   help?: string;
 }

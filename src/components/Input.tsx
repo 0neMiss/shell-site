@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { TextHistory } from "../types/TextHistory";
 import { parseUserInput } from "../utils/parseUserInput";
+import { DirectoryText } from "./DirectoryText";
 import "./Input.scss";
 interface InputProps {
   textHistory: TextHistory[];
@@ -11,20 +12,23 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState("");
   //when any key is pressed
   const onType = (e: any) => {
+    console.log(e.target.value);
     setInput(e.target.value);
   };
   // when enter is pressed
   const onEnter = (e: any) => {
     if (e.code === "Enter") {
+      console.log(e.target.value);
       setTextHistory([...textHistory, parseUserInput(e.target.value)]);
       setInput("");
       e.target.value = "";
+      e.target.focus();
     }
   };
   return (
     <>
       <div className="input-line-container">
-        <span className="directory-text">Guest@MYPORTFOLIO-0CD31MA: </span>
+        <DirectoryText />
         <span className="user-text">{input}</span>
         <textarea
           id="force-focus"
