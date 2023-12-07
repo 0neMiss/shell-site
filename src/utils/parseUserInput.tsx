@@ -9,11 +9,12 @@ type ParsingResult = TextHistory & {
 };
 
 export const parseUserInput = (input: string): ParsingResult => {
-  const { command: c, template } = parseCommandsAndFlags(input);
+  const { command, template } = parseCommandsAndFlags(input);
 
   const currentTime = new Date().toISOString();
   const outputText =
-    recognizedCommands[c]?.outputText ?? `|${c}|: command not found`;
+    recognizedCommands[command]?.outputText ??
+    `|${command}|: command not found`;
 
   return {
     message: [
@@ -33,7 +34,8 @@ export const parseUserInput = (input: string): ParsingResult => {
     ],
     time: currentTime,
     interfaceResponse:
-      recognizedCommands[c]?.outputText ?? `${c} is not a recognized command!`,
+      recognizedCommands[command]?.outputText ??
+      `${command} is not a recognized command!`,
     from: "user",
     inView: true,
   };
