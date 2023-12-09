@@ -4,9 +4,7 @@ import { recognizedCommands } from "../constants/RecognizedCommands";
 import { TextHistory } from "../types/TextHistory";
 import { parseCommandsAndFlags } from "./parseCommandsAndFlags";
 
-type ParsingResult = TextHistory & {
-  time: string;
-};
+type ParsingResult = TextHistory;
 
 export const parseUserInput = (input: string): ParsingResult => {
   const { command, template } = parseCommandsAndFlags(input);
@@ -18,14 +16,7 @@ export const parseUserInput = (input: string): ParsingResult => {
 
   return {
     message: [
-      <>
-        <DirectoryText />
-        <InterfaceMessage
-          key={`textHistory-${currentTime}`}
-          currentTime={currentTime}
-          template={template}
-        />
-      </>,
+      <DirectoryText command={command} />,
       <InterfaceMessage
         key={`outputText-${currentTime}`}
         currentTime={currentTime}

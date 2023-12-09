@@ -12,13 +12,11 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState("");
   //when any key is pressed
   const onType = (e: any) => {
-    console.log(e.target.value);
     setInput(e.target.value);
   };
   // when enter is pressed
   const onEnter = (e: any) => {
     if (e.code === "Enter") {
-      console.log(e.target.value);
       setTextHistory([...textHistory, parseUserInput(e.target.value)]);
       setInput("");
       e.target.value = "";
