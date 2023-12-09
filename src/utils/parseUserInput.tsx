@@ -7,7 +7,7 @@ import { parseCommandsAndFlags } from "./parseCommandsAndFlags";
 type ParsingResult = TextHistory;
 
 export const parseUserInput = (input: string): ParsingResult => {
-  const { command, template } = parseCommandsAndFlags(input);
+  const { command } = parseCommandsAndFlags(input);
 
   const currentTime = new Date().toISOString();
   const outputText =
