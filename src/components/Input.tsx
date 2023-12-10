@@ -28,7 +28,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
         .querySelector("#input-line-container .directory-text")
         ?.scrollIntoView({ behavior: "smooth" });
       clearTimeout(scrollAfterUpdate);
-    }, 5);
+    }, 1);
   };
 
   return (
