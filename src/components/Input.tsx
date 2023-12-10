@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { TextHistory } from "../types/TextHistory";
 import { parseUserInput } from "../utils/parseUserInput";
 import { PromptText } from "./PromptText";
@@ -13,17 +13,24 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   // when any key is pressed
   const onType = (e: any) => {
     setInput(e.target.value);
+    // when enter is pressed
   };
-  // when enter is pressed
+
   const onEnter = (e: any) => {
     if (e.code === "Enter") {
       setTextHistory([...textHistory, parseUserInput(e.target.value)]);
       setInput("");
       e.target.value = "";
       e.target.focus();
-      window.scroll(0, window.outerHeight);
     }
+    const scrollAfterUpdate = setTimeout(() => {
+      document
+        .querySelector("#input-line-container .directory-text")
+        ?.scrollIntoView({ behavior: "smooth" });
+      clearTimeout(scrollAfterUpdate);
+    }, 5);
   };
+
   return (
     <>
       <div id="input-line-container" className="input-line-container">
