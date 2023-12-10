@@ -1,6 +1,10 @@
 .directory-text {
   padding-bottom: 2rem;
   color: green;
+  .dollar-sign {
+    display: inline-block;
+    padding-right: 1rem;
+  }
   /*TODO figure out how to link this up to an asset*/
   font-family: "FiraCode Nerd Font", monospace;
 }

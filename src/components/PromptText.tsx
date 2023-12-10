@@ -10,7 +10,11 @@ export const PromptText: FC<PromptTextProps> = ({ command = null }) => {
       Guest@MYPORTFOLIO-0CD31MA:
       <DirectoryPath />
       <p className="dollar-sign">$</p>
-      {command && <span className="sys-commad">{command} </span>}
+      {command && (
+        <span id="sys-command" className="sys-command">
+          {command}{" "}
+        </span>
+      )}
     </span>
   );
 };

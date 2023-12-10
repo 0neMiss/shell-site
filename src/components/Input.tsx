@@ -21,11 +21,12 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
       setInput("");
       e.target.value = "";
       e.target.focus();
+      window.scroll(0, window.outerHeight);
     }
   };
   return (
     <>
-      <div className="input-line-container">
+      <div id="input-line-container" className="input-line-container">
         <PromptText />
         <span className="user-text">{input}</span>
         <textarea
