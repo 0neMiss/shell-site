@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { DirectoryPath } from "./DirectoryPath";
 import "./PromptText.scss";
 interface PromptTextProps {
   command?: string;
@@ -6,8 +7,10 @@ interface PromptTextProps {
 export const PromptText: FC<PromptTextProps> = ({ command = null }) => {
   return (
     <span className="directory-text">
-      Guest@MYPORTFOLIO-0CD31MA:{"~$"}{" "}
-      <span className="sys-commad">{command} </span>
+      Guest@MYPORTFOLIO-0CD31MA:
+      <DirectoryPath />
+      <p className="dollar-sign">$</p>
+      {command && <span className="sys-commad">{command} </span>}
     </span>
   );
 };

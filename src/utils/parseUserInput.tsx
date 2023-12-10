@@ -4,9 +4,7 @@ import { recognizedCommands } from "../constants/RecognizedCommands";
 import { TextHistory } from "../types/TextHistory";
 import { parseCommandsAndFlags } from "./parseCommandsAndFlags";
 
-type ParsingResult = TextHistory;
-
-export const parseUserInput = (input: string): ParsingResult => {
+export const parseUserInput = (input: string): TextHistory => {
   const { command } = parseCommandsAndFlags(input);
 
   const currentTime = new Date().toISOString();
