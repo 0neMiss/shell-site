@@ -1,4 +1,4 @@
-import { DirectoryText } from "../components/DirectoryText";
+import { PromptText } from "../components/PromptText";
 import { InterfaceMessage } from "../components/InterfaceMessage";
 import { recognizedCommands } from "../constants/RecognizedCommands";
 import { TextHistory } from "../types/TextHistory";
@@ -16,7 +16,7 @@ export const parseUserInput = (input: string): ParsingResult => {
 
   return {
     message: [
-      <DirectoryText command={command} />,
+      <PromptText command={command} />,
       <InterfaceMessage
         key={`outputText-${currentTime}`}
         currentTime={currentTime}

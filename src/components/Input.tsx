@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { TextHistory } from "../types/TextHistory";
 import { parseUserInput } from "../utils/parseUserInput";
-import { DirectoryText } from "./DirectoryText";
+import { PromptText } from "./PromptText";
 import "./Input.scss";
 interface InputProps {
   textHistory: TextHistory[];
@@ -10,7 +10,7 @@ interface InputProps {
 
 export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState("");
-  //when any key is pressed
+  // when any key is pressed
   const onType = (e: any) => {
     setInput(e.target.value);
   };
@@ -26,7 +26,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   return (
     <>
       <div className="input-line-container">
-        <DirectoryText />
+        <PromptText />
         <span className="user-text">{input}</span>
         <textarea
           id="force-focus"

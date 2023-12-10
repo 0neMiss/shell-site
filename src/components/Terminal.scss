@@ -1,7 +1,9 @@
 .terminal {
-  position: absolute;
+  display: flex;
+  overflow: auto;
+  flex-direction: column-reverse;
   width: 100%;
-  height: 100%;
+  height: 20%;
   background-color: #121214;
   .text-container {
     padding: 0rem 1.4rem;

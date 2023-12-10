@@ -8,11 +8,12 @@ export const recognizedCommands: CommandMap = {
     outputText: "",
   },
   contact: {
-    outputText: "You can conta",
+    outputText: "You can contact me ",
   },
   links: {
     outputText: String.raw`
-      
+      - Github        https://github.com/0neMiss?tab=overview
+      - linkedin      https://www.linkedin.com/in/jordan-shehane-b2807a196/
     `,
   },
 };
