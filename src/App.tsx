@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Terminal } from "./components/Terminal";
+import { CommandHistoryProvider } from "./context/CommandHisoryContext";
 
 function App() {
   const forceFocusHandler = () => {
@@ -11,7 +12,11 @@ function App() {
       document.body.removeEventListener("click", forceFocusHandler);
     };
   }, []);
-  return <Terminal />;
+  return (
+    <CommandHistoryProvider>
+      <Terminal />
+    </CommandHistoryProvider>
+  );
 }
 
 export default App;

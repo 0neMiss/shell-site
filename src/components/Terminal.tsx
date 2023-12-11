@@ -10,14 +10,6 @@ export const Terminal = () => {
     useState<TextHistory[]>(STARTING_HISTORY);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [commandHistoryIndex, setCommandHistoryIndex] = useState<number>(0);
-  useEffect(() => {
-    const element = document
-      .querySelector("#input-line-container .directory-text")
-      ?.scrollIntoView(true);
-
-    console.log(element);
-    window.scrollBy(400, window.scrollY);
-  }, [textHistory]);
   return (
     <>
       <div className="terminal">
