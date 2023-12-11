@@ -1,10 +1,21 @@
 .word-art-container {
   .word-art {
+    overflow: hidden;
     font-size: 0.7rem;
     display: inline-block;
     text-align: left;
     color: #95bb9d;
     font-family: "FiraCode Nerd Font", monospace;
     whitespace: pre-wrap;
+    animation: reveal 3.5s steps(40, end);
+    margin: 0 auto;
+  }
+}
+@keyframes reveal {
+  from {
+    width: 0;
+  }
+  to {
+    width: 55%;
   }
 }
