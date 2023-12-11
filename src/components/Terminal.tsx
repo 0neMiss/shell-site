@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Terminal.scss";
-import { STARTING_VIEW } from "../constants/StartingView";
-import { View } from "../types/View";
 import { Input } from "./Input";
 import { TextHistory } from "../types/TextHistory";
 import { STARTING_HISTORY } from "../constants/StartingHistory";
