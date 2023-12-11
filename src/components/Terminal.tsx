@@ -8,6 +8,8 @@ export const Terminal = () => {
   // track the text history from both user and interface
   const [textHistory, setTextHistory] =
     useState<TextHistory[]>(STARTING_HISTORY);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [commandHistoryIndex, setCommandHistoryIndex] = useState<number>(0);
   useEffect(() => {
     const element = document
       .querySelector("#input-line-container .directory-text")
@@ -21,11 +23,16 @@ export const Terminal = () => {
       <div className="terminal">
         <div className="text-container">
           {textHistory.map((item) => {
-            if (item.inView) {
-              return item.message;
-            }
+            return item.message;
           })}
-          <Input textHistory={textHistory} setTextHistory={setTextHistory} />
+          <Input
+            setCommandHistoryIndex={setCommandHistoryIndex}
+            commandHistoryIndex={commandHistoryIndex}
+            setCommandHistory={setCommandHistory}
+            commandHistory={commandHistory}
+            textHistory={textHistory}
+            setTextHistory={setTextHistory}
+          />
         </div>
       </div>
     </>
