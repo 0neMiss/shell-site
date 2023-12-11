@@ -26,33 +26,41 @@ export const Input: FC<InputProps> = ({
     e.preventDefault();
     setInput(e.target.value);
   };
-
+  // this sucks and I hate it.
+  // something wrong with the setting of the index, jumping way farther in history than intended
+  // its also ugly and it smells bad
   const onSpecialKeypress = (e: any) => {
-    console.log(e.code);
     let command;
+    let outOfHistoryRange;
     if (e.code === "ArrowUp") {
       if (!commandHistory.length) {
         return;
       }
 
-      const outOfHistoryRange = commandHistoryIndex + 1 > commandHistory.length;
+      console.log(commandHistoryIndex);
+      outOfHistoryRange = commandHistoryIndex + 1 < commandHistory.length;
       if (outOfHistoryRange) {
         return;
       }
+
+      command = commandHistory[commandHistoryIndex ?? 0];
+      e.target.value = command;
+      setInput(command);
       setCommandHistoryIndex(
         outOfHistoryRange ? commandHistory.length : commandHistoryIndex + 1,
       );
-      command = commandHistory[commandHistoryIndex ?? 0];
-      e.target.value = commandHistory[commandHistoryIndex ?? 0];
-      setInput(command);
       console.log((e.target.selectionStart = e.target.selectionEnd));
     }
+
     if (e.code === "ArrowDown") {
+      outOfHistoryRange = commandHistoryIndex + 1 > commandHistory.length;
+      command = commandHistory[commandHistoryIndex ?? 0];
       e.target.value = commandHistory.length
         ? commandHistory[commandHistoryIndex ?? 0]
         : e.target.value;
       console.log((e.target.selectionStart = e.target.selectionEnd));
     }
+
     if (e.code === "Enter") {
       setTextHistory([...textHistory, parseUserInput(e.target.value)]);
       setCommandHistory([...commandHistory, e.target.value.trim()]);
