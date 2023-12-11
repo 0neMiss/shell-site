@@ -1,7 +1,7 @@
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
 import { CommandHistory } from "../apis/CommandHistory";
 
-const CommandHistoryContext = createContext<CommandHistory | null>(null);
+export const CommandHistoryContext = createContext<CommandHistory | null>(null);
 
 interface CommandHistoryContextProps {
   children: ReactNode;

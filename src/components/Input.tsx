@@ -1,9 +1,17 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { TextHistory } from "../types/TextHistory";
 import { parseUserInput } from "../utils/parseUserInput";
 import { PromptText } from "./PromptText";
 import "./Input.scss";
 import { RegisteredKeys } from "../enums/RegisteredKeys";
+import { CommandHistoryContext } from "../context/CommandHisoryContext";
 interface InputProps {
   textHistory: TextHistory[];
   setTextHistory: Dispatch<SetStateAction<TextHistory[]>>;
@@ -22,11 +30,45 @@ export const Input: FC<InputProps> = ({
   commandHistoryIndex,
 }) => {
   const [input, setInput] = useState("");
+  const history = useContext(CommandHistoryContext);
 
   const onType = (e: any) => {
     e.preventDefault();
     setInput(e.target.value);
   };
+
+  //still meh
+  const newOnRegisteredKeypress = (e: any) => {
+    const historyEnabled = history?.enabled;
+    switch (e.code) {
+      case RegisteredKeys.ENTER:
+        setTextHistory([...textHistory, parseUserInput(e.target.value)]);
+        history?.add(e.target.value.trim());
+        setInput("");
+        e.target.value = "";
+        e.target.focus();
+        const scrollAfterUpdate = setTimeout(() => {
+          document
+            .querySelector("#input-line-container .directory-text")
+            ?.scrollIntoView({ behavior: "smooth" });
+          clearTimeout(scrollAfterUpdate);
+        }, 1);
+        break;
+      case RegisteredKeys.DOWN:
+        if (!historyEnabled) {
+          break;
+        }
+        if (history?.pointer === 0) {
+        }
+        break;
+      case RegisteredKeys.UP:
+        if (!historyEnabled && history?.length) {
+          history.enabled = true;
+        }
+        break;
+    }
+  };
+
   // something wrong with the setting of the index, jumping way farther in history than intended
   const onRegisteredKeypress = (e: any) => {
     let command;

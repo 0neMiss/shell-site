@@ -24,6 +24,9 @@ export class CommandHistory implements CommandHistory {
   get current() {
     return this._current;
   }
+  get length() {
+    return this.history.length;
+  }
 
   public next() {
     if (this._pointer! >= this.history.length) {
