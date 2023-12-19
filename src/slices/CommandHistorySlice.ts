@@ -34,6 +34,12 @@ export const CommandHistorySlice = createSlice({
       state.enabled = false;
       state.pointer = 0;
     },
+    add: (state, command) => {
+      state.history.unshift(command);
+    },
+    clearHistory: (state) => {
+      state.history = [];
+    },
   },
 });
 
