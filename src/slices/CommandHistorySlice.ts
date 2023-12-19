@@ -26,8 +26,8 @@ export const CommandHistorySlice = createSlice({
     },
     prev: (state) => {
       if (state.pointer! <= 0) {
-        state.current = state.history[state.pointer];
         state.pointer -= 1;
+        state.current = state.history[state.pointer];
       }
     },
     resetHistoryState: (state) => {
