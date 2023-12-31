@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type CommandHistoryState = {
   pointer: number;
@@ -18,13 +17,17 @@ const CommandHistorySlice = createSlice({
   name: "command-history-slice",
   initialState,
   reducers: {
-    next: (state) => {
-      if (state.pointer! >= state.history.length) {
-        state.pointer += 1;
-        state.current = state.history[state.pointer];
+    nextCommand: (state) => {
+      state.pointer += 1;
+      console.log(state.pointer === state.history.length);
+      if (state.pointer === state.history.length + 1) {
+        return;
       }
+      console.log(state.history[1]);
+      state.current = state.history[state.pointer];
+      console.log(state.current);
     },
-    prev: (state) => {
+    prevCommand: (state) => {
       if (state.pointer! <= 0) {
         state.pointer -= 1;
         state.current = state.history[state.pointer];
@@ -34,14 +37,28 @@ const CommandHistorySlice = createSlice({
       state.enabled = false;
       state.pointer = 0;
     },
-    add: (state: CommandHistoryState, action: PayloadAction<string>) => {
-      state.history.unshift(action?.command);
+    addCommand: (state, action: PayloadAction<string>) => {
+      state.history.unshift(action.payload);
     },
     clearHistory: (state) => {
       state.history = [];
     },
+    enableHistory: (state) => {
+      state.enabled = true;
+    },
+    disableHistory: (state) => {
+      state.enabled = false;
+    },
   },
 });
 
-export const { next, prev, resetHistoryState } = CommandHistorySlice.actions;
+export const {
+  nextCommand,
+  prevCommand,
+  resetHistoryState,
+  addCommand,
+  enableHistory,
+  disableHistory,
+  clearHistory,
+} = CommandHistorySlice.actions;
 export default CommandHistorySlice.reducer;

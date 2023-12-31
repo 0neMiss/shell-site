@@ -1,11 +1,16 @@
-import { Dispatch, FC, SetStateAction, useContext, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { TextHistory } from "../types/TextHistory";
 import { parseUserInput } from "../utils/parseUserInput";
 import { PromptText } from "./PromptText";
 import "./Input.scss";
 import { RegisteredKeys } from "../enums/RegisteredKeys";
-import { useAppSelector } from "../app-setup/hooks";
-import { CommandHistoryState } from "../slices/CommandHistorySlice";
+import { useAppDispatch, useAppSelector } from "../app-setup/hooks";
+import {
+  addCommand,
+  enableHistory,
+  nextCommand,
+  resetHistoryState,
+} from "../slices/CommandHistorySlice";
 interface InputProps {
   textHistory: TextHistory[];
   setTextHistory: Dispatch<SetStateAction<TextHistory[]>>;
@@ -15,6 +20,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState("");
   const commandHistory = useAppSelector((state) => state.commandHistory);
 
+  const dispatch = useAppDispatch();
   const onType = (e: any) => {
     e.preventDefault();
     setInput(e.target.value);
@@ -22,10 +28,12 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
 
   //still meh
   const onRegisteredKeypress = (e: any) => {
+    console.log(e);
     const historyEnabled = commandHistory?.enabled;
     switch (e.code) {
       case RegisteredKeys.ENTER:
         setTextHistory([...textHistory, parseUserInput(e.target.value)]);
+        dispatch(addCommand(e.target.value.trim()));
         setInput("");
         e.target.value = "";
         e.target.focus();
@@ -41,11 +49,17 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
           break;
         }
         if (commandHistory?.pointer === 0) {
+          dispatch(resetHistoryState());
         }
         break;
       case RegisteredKeys.UP:
-        if (!historyEnabled && commandHistory?.history?.length) {
-          commandHistory.enabled = true;
+        if (commandHistory?.history?.length) {
+          !historyEnabled ?? dispatch(enableHistory());
+          dispatch(nextCommand());
+          console.log(commandHistory.current);
+          setInput(commandHistory.current);
+          e.target.value = commandHistory.current;
+          e.target.focus();
         }
         break;
     }

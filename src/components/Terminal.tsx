@@ -8,8 +8,6 @@ export const Terminal = () => {
   // track the text history from both user and interface
   const [textHistory, setTextHistory] =
     useState<TextHistory[]>(STARTING_HISTORY);
-  const [commandHistory, setCommandHistory] = useState<string[]>([]);
-  const [commandHistoryIndex, setCommandHistoryIndex] = useState<number>(0);
   return (
     <>
       <div className="terminal">
