@@ -1,22 +1,22 @@
 //@ts-nocheck
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 
-interface CommandHistoryState {
+export type CommandHistoryState = {
   pointer: number;
   enabled: boolean;
   history: string[];
   current: string;
-}
-const intitialState: CommandHistoryState = {
+};
+const initialState = {
   pointer: 0,
   enabled: false,
   history: [],
   current: "",
-};
+} as CommandHistoryState;
 
-export const CommandHistorySlice = createSlice({
+const CommandHistorySlice = createSlice({
   name: "command-history-slice",
-  state: intitialState,
+  initialState,
   reducers: {
     next: (state) => {
       if (state.pointer! >= state.history.length) {
@@ -34,8 +34,8 @@ export const CommandHistorySlice = createSlice({
       state.enabled = false;
       state.pointer = 0;
     },
-    add: (state, command) => {
-      state.history.unshift(command);
+    add: (state: CommandHistoryState, action: PayloadAction<string>) => {
+      state.history.unshift(action?.command);
     },
     clearHistory: (state) => {
       state.history = [];
@@ -43,4 +43,5 @@ export const CommandHistorySlice = createSlice({
   },
 });
 
-export const { next, prev, resetHistoryState } = counterSlice.actions;
+export const { next, prev, resetHistoryState } = CommandHistorySlice.actions;
+export default CommandHistorySlice.reducer;

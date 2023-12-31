@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./Terminal.scss";
 import { Input } from "./Input";
 import { TextHistory } from "../types/TextHistory";
@@ -17,14 +17,7 @@ export const Terminal = () => {
           {textHistory.map((item) => {
             return item.message;
           })}
-          <Input
-            setCommandHistoryIndex={setCommandHistoryIndex}
-            commandHistoryIndex={commandHistoryIndex}
-            setCommandHistory={setCommandHistory}
-            commandHistory={commandHistory}
-            textHistory={textHistory}
-            setTextHistory={setTextHistory}
-          />
+          <Input textHistory={textHistory} setTextHistory={setTextHistory} />
         </div>
       </div>
     </>

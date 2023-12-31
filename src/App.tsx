@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { Provider } from "react-redux";
+import { store } from "./app-setup/store";
 import { Terminal } from "./components/Terminal";
-import { CommandHistoryProvider } from "./context/CommandHisoryContext";
 
 function App() {
   const forceFocusHandler = () => {
@@ -13,9 +14,9 @@ function App() {
     };
   }, []);
   return (
-    <CommandHistoryProvider>
+    <Provider store={store}>
       <Terminal />
-    </CommandHistoryProvider>
+    </Provider>
   );
 }
 

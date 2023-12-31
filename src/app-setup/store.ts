@@ -1,4 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { CommandHistorySlice } from "../slices/CommandHistorySlice";
+import CommandHistorySlice from "../slices/CommandHistorySlice";
 
-const store = configureStore({ reducer: CommandHistorySlice.reducer });
+export const store = configureStore({
+  reducer: { commandHistory: CommandHistorySlice },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
