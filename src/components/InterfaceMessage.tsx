@@ -10,17 +10,18 @@ interface InterfaceMessageProps {
 
 export const InterfaceMessage: FC<InterfaceMessageProps> = ({ template }) => {
   const [parsedMessage, setParsedMessage] = useState<React.ReactNode[]>();
-  const parseMessage = () => {
-    const isSystemCommand = /\|(.+)\|/;
-    setParsedMessage(
-      reactStringReplace(template, isSystemCommand, (match, i) => (
-        <span key={i} id={"sys-command"}>
-          {match}
-        </span>
-      )),
-    );
-  };
   useEffect(() => {
+    const parseMessage = () => {
+      const isSystemCommand = /\|(.+)\|/;
+      setParsedMessage(
+        reactStringReplace(template, isSystemCommand, (match, i) => (
+          <span key={i} id={"sys-command"}>
+            {match}
+          </span>
+        )),
+      );
+    };
+
     parseMessage();
   }, [template]);
 

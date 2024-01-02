@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,6 +34,9 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "jest": {
+    "transform": {}
   },
   "browserslist": {
     "production": [
@@ -46,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.23.3"
   }
 }

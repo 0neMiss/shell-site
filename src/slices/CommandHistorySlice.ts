@@ -18,14 +18,13 @@ const CommandHistorySlice = createSlice({
   initialState,
   reducers: {
     nextCommand: (state) => {
-      state.pointer += 1;
-      console.log(state.pointer === state.history.length);
-      if (state.pointer === state.history.length + 1) {
+      if (state.pointer >= state.history.length) {
         return;
       }
-      console.log(state.history[1]);
+      if (!state.enabled) {
+        state.enabled = true;
+      }
       state.current = state.history[state.pointer];
-      console.log(state.current);
     },
     prevCommand: (state) => {
       if (state.pointer! <= 0) {
@@ -42,12 +41,6 @@ const CommandHistorySlice = createSlice({
     },
     clearHistory: (state) => {
       state.history = [];
-    },
-    enableHistory: (state) => {
-      state.enabled = true;
-    },
-    disableHistory: (state) => {
-      state.enabled = false;
     },
   },
 });
