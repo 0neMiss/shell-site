@@ -1,14 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import CommandHistorySlice from "./CommandHistorySlice";
-import {
-  nextCommand,
-  prevCommand,
-  resetHistoryState,
-  addCommand,
-  enableHistory,
-  disableHistory,
-  clearHistory,
-} from "./CommandHistorySlice";
+import { nextCommand, addCommand } from "./CommandHistorySlice";
 
 const configureStoreWithData = () => {
   const store = configureStore({
@@ -43,11 +35,17 @@ describe("Command History Suite", () => {
     const store = configureStoreWithData();
     store.dispatch(nextCommand());
     const {
-      commandHistory: { current, enabled, pointer },
+      commandHistory: { current, pointer },
     } = store.getState();
-    expect(enabled).toBe(true);
     expect(current).toBe("ls -a");
-    expect(pointer).toBe(0);
+    expect(pointer).toBe(1);
+
+    store.dispatch(nextCommand());
+    const {
+      commandHistory: { current: nextCurrent, pointer: nextPointer },
+    } = store.getState();
+    expect(nextCurrent).toBe("ls");
+    expect(nextPointer).toBe(2);
   });
   it("should go to the previous command in history", () => {});
 });

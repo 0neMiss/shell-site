@@ -7,7 +7,6 @@ import { RegisteredKeys } from "../enums/RegisteredKeys";
 import { useAppDispatch, useAppSelector } from "../app-setup/hooks";
 import {
   addCommand,
-  enableHistory,
   nextCommand,
   resetHistoryState,
 } from "../slices/CommandHistorySlice";
@@ -28,7 +27,6 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
 
   //still meh
   const onRegisteredKeypress = (e: any) => {
-    console.log(e);
     const historyEnabled = commandHistory?.enabled;
     switch (e.code) {
       case RegisteredKeys.ENTER:
@@ -54,9 +52,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
         break;
       case RegisteredKeys.UP:
         if (commandHistory?.history?.length) {
-          !historyEnabled ?? dispatch(enableHistory());
           dispatch(nextCommand());
-          console.log(commandHistory.current);
           setInput(commandHistory.current);
           e.target.value = commandHistory.current;
           e.target.focus();
