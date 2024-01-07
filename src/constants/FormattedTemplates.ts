@@ -28,5 +28,5 @@ export const contactOutputText = String.raw`
     - phone     618-946-4327
     - linkedin  https://www.linkedin.com/in/jordan-shehane-b2807a196/
     `;
-export const helpOutpueText =
+export const helpOutputText =
   "other commands:\n - projects       Provides a list of links to other things I've worked on.\n - contact        How to contact me!\n - links          Links to things like my linkedin and github";

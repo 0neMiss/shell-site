@@ -1,6 +1,6 @@
 import { recognizedCommands } from "../constants/RecognizedCommands";
 
-interface ParsedReturn {
+export interface ParsedReturn {
   template: string;
   command: string;
   flags?: Record<string, boolean>[];

@@ -8,10 +8,12 @@ export const parseUserInput = (input: string): TextHistory => {
   const { command } = parseCommandsAndFlags(input);
 
   const currentTime = new Date().toISOString();
-  const outputText =
-    recognizedCommands[command]?.outputText ??
-    `|${command}|: command not found`;
-
+  let outputText = "";
+  if (command.trim().length) {
+    outputText =
+      recognizedCommands[command]?.outputText ??
+      `|${command}|: command not found`;
+  }
   return {
     message: [
       <PromptText command={command} />,

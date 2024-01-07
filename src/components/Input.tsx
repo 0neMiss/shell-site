@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { TextHistory } from "../types/TextHistory";
 import { parseUserInput } from "../utils/parseUserInput";
 import { PromptText } from "./PromptText";
@@ -8,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../app-setup/hooks";
 import {
   addCommand,
   nextCommand,
+  prevCommand,
   resetHistoryState,
 } from "../slices/CommandHistorySlice";
 interface InputProps {
@@ -16,8 +24,17 @@ interface InputProps {
 }
 
 export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<undefined | string>("");
+  const textArea = useRef<HTMLTextAreaElement>(null);
   const commandHistory = useAppSelector((state) => state.commandHistory);
+
+  useEffect(() => {
+    if (textArea?.current?.value) {
+      textArea.current.focus();
+      textArea.current.value = commandHistory.current;
+      setInput(commandHistory.current);
+    }
+  }, [commandHistory]);
 
   const dispatch = useAppDispatch();
   const onType = (e: any) => {
@@ -27,14 +44,16 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
 
   //still meh
   const onRegisteredKeypress = (e: any) => {
-    const historyEnabled = commandHistory?.enabled;
     switch (e.code) {
       case RegisteredKeys.ENTER:
         setTextHistory([...textHistory, parseUserInput(e.target.value)]);
-        dispatch(addCommand(e.target.value.trim()));
+        dispatch(addCommand(e.target.value));
+        dispatch(resetHistoryState());
         setInput("");
-        e.target.value = "";
-        e.target.focus();
+        if (textArea?.current?.value) {
+          textArea.current.value = "";
+          textArea?.current.focus();
+        }
         const scrollAfterUpdate = setTimeout(() => {
           document
             .querySelector("#input-line-container .directory-text")
@@ -43,20 +62,10 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
         }, 1);
         break;
       case RegisteredKeys.DOWN:
-        if (!historyEnabled) {
-          break;
-        }
-        if (commandHistory?.pointer === 0) {
-          dispatch(resetHistoryState());
-        }
+        dispatch(prevCommand());
         break;
       case RegisteredKeys.UP:
-        if (commandHistory?.history?.length) {
-          dispatch(nextCommand());
-          setInput(commandHistory.current);
-          e.target.value = commandHistory.current;
-          e.target.focus();
-        }
+        dispatch(nextCommand());
         break;
     }
   };
@@ -69,6 +78,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
         <textarea
           id="force-focus"
           className="offscreen-text"
+          ref={textArea}
           onKeyDown={onRegisteredKeypress}
           onInput={onType}
           autoFocus

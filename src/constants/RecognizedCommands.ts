@@ -1,13 +1,13 @@
 import { CommandMap } from "../types/CommandObjects";
 import {
   contactOutputText,
-  helpOutpueText,
+  helpOutputText,
   linksOutputText,
   projectsOuputText,
 } from "./FormattedTemplates";
 export const recognizedCommands: CommandMap = {
   help: {
-    outputText: helpOutpueText,
+    outputText: helpOutputText,
   },
   projects: {
     outputText: projectsOuputText,
@@ -17,5 +17,8 @@ export const recognizedCommands: CommandMap = {
   },
   links: {
     outputText: linksOutputText,
+  },
+  clear: {
+    outputText: "",
   },
 };
