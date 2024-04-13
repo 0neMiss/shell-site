@@ -25,14 +25,14 @@ interface InputProps {
 
 export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState<undefined | string>("");
-  const textArea = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { currentIndex, commandHistory } = useAppSelector(
     (state) => state.commandHistory,
   );
 
   useEffect(() => {
-    if (textArea?.current?.value) {
-      setInput(textArea.current.value);
+    if (inputRef?.current?.value) {
+      setInput(inputRef.current.value);
     }
   }, [commandHistory]);
 
@@ -50,9 +50,9 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
           dispatch(addCommand(e.target.value));
           dispatch(resetHistoryState());
           setInput("");
-          if (textArea?.current?.value) {
-            textArea.current.value = "";
-            textArea?.current.focus();
+          if (inputRef?.current?.value) {
+            inputRef.current.value = "";
+            inputRef?.current.focus();
           }
           const scrollAfterUpdate = setTimeout(() => {
             document
@@ -69,17 +69,17 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
           break;
       }
     };
-    if (textArea.current) {
-      textArea.current.onkeydown = onRegisteredKeypress;
+    if (inputRef.current) {
+      inputRef.current.onkeydown = onRegisteredKeypress;
     }
   }, [textHistory, currentIndex, commandHistory]);
 
   useEffect(() => {
     setInput(commandHistory[currentIndex]);
-    if (textArea.current && currentIndex >= 0) {
-      textArea.current.value = commandHistory[currentIndex];
+    if (inputRef.current && currentIndex >= 0) {
+      inputRef.current.value = commandHistory[currentIndex];
       setTimeout(() => {
-        textArea.current?.setSelectionRange(
+        inputRef.current?.setSelectionRange(
           commandHistory[currentIndex].length,
           commandHistory[currentIndex].length,
         );
@@ -95,7 +95,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
         <input
           id="force-focus"
           className="offscreen-text"
-          ref={textArea}
+          ref={inputRef}
           onInput={onType}
           autoFocus
         />
