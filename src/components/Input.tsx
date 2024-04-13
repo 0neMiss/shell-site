@@ -26,13 +26,14 @@ interface InputProps {
 export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState<undefined | string>("");
   const textArea = useRef<HTMLTextAreaElement>(null);
-  const commandHistory = useAppSelector((state) => state.commandHistory);
+  const { currentIndex, commandHistory } = useAppSelector(
+    (state) => state.commandHistory,
+  );
 
   useEffect(() => {
     if (textArea?.current?.value) {
       textArea.current.focus();
-      textArea.current.value = commandHistory.current;
-      setInput(commandHistory.current);
+      setInput(textArea.current.value);
     }
   }, [commandHistory]);
 
@@ -42,33 +43,44 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
     setInput(e.target.value);
   };
 
-  //still meh
-  const onRegisteredKeypress = (e: any) => {
-    switch (e.code) {
-      case RegisteredKeys.ENTER:
-        setTextHistory([...textHistory, parseUserInput(e.target.value)]);
-        dispatch(addCommand(e.target.value));
-        dispatch(resetHistoryState());
-        setInput("");
-        if (textArea?.current?.value) {
-          textArea.current.value = "";
-          textArea?.current.focus();
-        }
-        const scrollAfterUpdate = setTimeout(() => {
-          document
-            .querySelector("#input-line-container .directory-text")
-            ?.scrollIntoView({ behavior: "smooth" });
-          clearTimeout(scrollAfterUpdate);
-        }, 1);
-        break;
-      case RegisteredKeys.DOWN:
-        dispatch(prevCommand());
-        break;
-      case RegisteredKeys.UP:
-        dispatch(nextCommand());
-        break;
+  useEffect(() => {
+    const onRegisteredKeypress = (e: any) => {
+      switch (e.code) {
+        case RegisteredKeys.ENTER:
+          setTextHistory([...textHistory, parseUserInput(e.target.value)]);
+          dispatch(addCommand(e.target.value));
+          dispatch(resetHistoryState());
+          setInput("");
+          if (textArea?.current?.value) {
+            textArea.current.value = "";
+            textArea?.current.focus();
+          }
+          const scrollAfterUpdate = setTimeout(() => {
+            document
+              .querySelector("#input-line-container .directory-text")
+              ?.scrollIntoView({ behavior: "smooth" });
+            clearTimeout(scrollAfterUpdate);
+          }, 1);
+          break;
+        case RegisteredKeys.DOWN:
+          dispatch(prevCommand());
+          break;
+        case RegisteredKeys.UP:
+          dispatch(nextCommand());
+          break;
+      }
+    };
+    if (textArea.current) {
+      textArea.current.onkeydown = onRegisteredKeypress;
     }
-  };
+  }, [textHistory, currentIndex, commandHistory]);
+
+  useEffect(() => {
+    setInput(commandHistory[currentIndex]);
+    if (textArea.current) {
+      textArea.current.value = commandHistory[currentIndex] ?? "";
+    }
+  }, [currentIndex, commandHistory]);
 
   return (
     <>
@@ -79,7 +91,6 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
           id="force-focus"
           className="offscreen-text"
           ref={textArea}
-          onKeyDown={onRegisteredKeypress}
           onInput={onType}
           autoFocus
         />

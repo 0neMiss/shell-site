@@ -1,61 +1,40 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type CommandHistoryState = {
-  pointer: number;
-  enabled: boolean;
-  history: string[];
-  current: string;
-};
-const initialState = {
-  pointer: 0,
-  enabled: false,
-  history: [],
-  current: "",
-} as CommandHistoryState;
+interface HistoryState {
+  commandHistory: string[];
+  currentIndex: number;
+}
 
-const CommandHistorySlice = createSlice({
-  name: "command-history-slice",
+const initialState: HistoryState = {
+  commandHistory: [],
+  currentIndex: -1,
+};
+
+const historySlice = createSlice({
+  name: "history",
   initialState,
   reducers: {
-    nextCommand: (state) => {
-      if (!state.enabled) {
-        state.enabled = true;
-        state.current = state.history[state.pointer];
-        return;
-      }
-      if (state.pointer < state.history.length) {
-        state.current = state.history[state.pointer];
-        state.pointer++;
+    addCommand(state, action: PayloadAction<string>) {
+      state.commandHistory.unshift(action.payload);
+      state.currentIndex = state.commandHistory.length - 1;
+    },
+    prevCommand(state) {
+      if (state.currentIndex > -1) {
+        state.currentIndex--;
       }
     },
-    prevCommand: (state) => {
-      state.current = state.history[state.pointer];
-      if (state.pointer > 0) {
-        state.pointer--;
-      }
-      if (state.pointer === 0 && state.enabled) {
-        state.enabled = false;
-        state.current = "";
+    nextCommand(state) {
+      if (state.currentIndex < state.commandHistory.length - 1) {
+        state.currentIndex++;
       }
     },
-    resetHistoryState: (state) => {
-      state.enabled = false;
-      state.pointer = 0;
-    },
-    addCommand: (state, action: PayloadAction<string>) => {
-      state.history.unshift(action.payload.trim());
-    },
-    clearHistory: (state) => {
-      state.history = [];
+    resetHistoryState(state) {
+      state.currentIndex = state.currentIndex = -1;
     },
   },
 });
 
-export const {
-  nextCommand,
-  prevCommand,
-  resetHistoryState,
-  addCommand,
-  clearHistory,
-} = CommandHistorySlice.actions;
-export default CommandHistorySlice.reducer;
+export const { addCommand, prevCommand, nextCommand, resetHistoryState } =
+  historySlice.actions;
+
+export default historySlice.reducer;
