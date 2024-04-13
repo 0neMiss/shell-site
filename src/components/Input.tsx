@@ -75,16 +75,20 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   }, [textHistory, currentIndex, commandHistory]);
 
   useEffect(() => {
+    let inputCursorMove: NodeJS.Timeout;
     setInput(commandHistory[currentIndex]);
     if (inputRef.current && currentIndex >= 0) {
       inputRef.current.value = commandHistory[currentIndex];
-      setTimeout(() => {
+      inputCursorMove = setTimeout(() => {
         inputRef.current?.setSelectionRange(
           commandHistory[currentIndex].length,
           commandHistory[currentIndex].length,
         );
       }, 0);
     }
+    return () => {
+      clearTimeout(inputCursorMove);
+    };
   }, [currentIndex, commandHistory]);
 
   return (
