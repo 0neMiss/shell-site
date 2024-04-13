@@ -25,14 +25,13 @@ interface InputProps {
 
 export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
   const [input, setInput] = useState<undefined | string>("");
-  const textArea = useRef<HTMLTextAreaElement>(null);
+  const textArea = useRef<HTMLInputElement>(null);
   const { currentIndex, commandHistory } = useAppSelector(
     (state) => state.commandHistory,
   );
 
   useEffect(() => {
     if (textArea?.current?.value) {
-      textArea.current.focus();
       setInput(textArea.current.value);
     }
   }, [commandHistory]);
@@ -77,8 +76,14 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
 
   useEffect(() => {
     setInput(commandHistory[currentIndex]);
-    if (textArea.current) {
-      textArea.current.value = commandHistory[currentIndex] ?? "";
+    if (textArea.current && currentIndex >= 0) {
+      textArea.current.value = commandHistory[currentIndex];
+      setTimeout(() => {
+        textArea.current?.setSelectionRange(
+          commandHistory[currentIndex].length,
+          commandHistory[currentIndex].length,
+        );
+      }, 0);
     }
   }, [currentIndex, commandHistory]);
 
@@ -87,7 +92,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
       <div id="input-line-container" className="input-line-container">
         <PromptText />
         <span className="user-text">{input}</span>
-        <textarea
+        <input
           id="force-focus"
           className="offscreen-text"
           ref={textArea}
