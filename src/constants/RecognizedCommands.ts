@@ -17,8 +17,5 @@ export const recognizedCommands: CommandMap = {
   },
   links: {
     outputText: linksOutputText,
-  },
-  clear: {
-    outputText: "",
-  },
-};
+  }
+}

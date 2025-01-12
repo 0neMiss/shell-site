@@ -13,13 +13,13 @@ export const textArtName = String.raw`
                                                                                    \`-.._____..-'
 `;
 export const projectsOuputText = String.raw`
-    - A mobile app using React Native for music practice     
-    - Conways game of life using PiGame                         https://github.com/0neMiss/GameOfLife
+    - Conways game of life  https://github.com/0neMiss/GameOfLife
+    - A simple LSP server   https://github.com/0neMiss/learning_lsp
   `;
 
 export const linksOutputText = String.raw`
-      - Github        https://github.com/0neMiss?tab=overview
-      - linkedin      https://www.linkedin.com/in/jordan-shehane-b2807a196/
+      - Github   https://github.com/0neMiss?tab=overview
+      - linkedin https://www.linkedin.com/in/jordan-shehane-b2807a196/
     `;
 export const contactOutputText = String.raw`
     If you want to contact me the best way is to send me a message on linkedin!
