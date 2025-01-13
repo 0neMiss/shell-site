@@ -72,7 +72,7 @@ export const Input: FC<InputProps> = ({ textHistory, setTextHistory }) => {
     if (inputRef.current) {
       inputRef.current.onkeydown = onRegisteredKeypress;
     }
-  }, [textHistory, currentIndex, commandHistory]);
+  }, [textHistory, currentIndex, commandHistory, dispatch, setTextHistory]);
 
   useEffect(() => {
     let inputCursorMove: NodeJS.Timeout;
